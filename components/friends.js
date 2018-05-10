@@ -569,6 +569,10 @@ SteamUser.prototype._handlers[SteamUser.EMsg.ClientClanState] = function(body) {
 };
 
 SteamUser.prototype._handlers[SteamUser.EMsg.ClientFriendsList] = function(body) {
+    if (!this._getFriendsPersonasOnLogOn) {
+    	return;
+	}
+	
 	var self = this;
 	(body.friends || []).forEach(function(relationship) {
 		var sid = new SteamID(relationship.ulfriendid.toString());
@@ -618,15 +622,13 @@ SteamUser.prototype._handlers[SteamUser.EMsg.ClientFriendsList] = function(body)
 		this.emit('friendsList');
 		this.emit('groupList');
 
-		if (self._getFriendsPersonasOnLogOn) {
-            // Request persona info for all our friends
-            var friends = Object.keys(this.myFriends).filter(function(steamID) { return self.myFriends[steamID] == SteamUser.EFriendRelationship.Friend; });
-            self.getPersonas(friends, function() {
-                process.nextTick(function() {
-                    self.emit('friendPersonasLoaded');
-                });
-            });
-		}
+		// Request persona info for all our friends
+		var friends = Object.keys(this.myFriends).filter(function(steamID) { return self.myFriends[steamID] == SteamUser.EFriendRelationship.Friend; });
+		self.getPersonas(friends, function() {
+			process.nextTick(function() {
+				self.emit('friendPersonasLoaded');
+			});
+		});
 	}
 };
 
