@@ -46,6 +46,8 @@ SteamUser.prototype.logOn = function(details) {
 			"anon_user_target_account_name": details.accountName ? "" : "anonymous",
 			"steamguard_dont_remember_computer": !!(details.accountName && details.authCode && details.dontRememberMachine)
 		};
+
+		this._getFriendsPersonasOnLogOn = details['get_friends_personas_on_logon'] ? details['get_friends_personas_on_logon'] : true;
 	}
 
 	var anonLogin = !this._logOnDetails.account_name;
