@@ -84,7 +84,8 @@ function SteamUser(client, options) {
 		"picsCacheAll": false,
 		"changelistUpdateInterval": 60000,
 		"saveAppTickets": true,
-		"debug": false
+		"debug": false,
+		"additionalHeaders": {},
 	};
 
 	for (var i in defaultOptions) {
@@ -116,7 +117,7 @@ function SteamUser(client, options) {
 
 	var self = this;
 	this.client.on('error', function(e) {
-		if (!self.steamID && e.result != SteamUser.EResult.ConnectFailed) {
+		if (!self.steamID && e.eresult != SteamUser.EResult.ConnectFailed) {
 			return; // We've already handled this
 		}
 

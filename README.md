@@ -200,6 +200,15 @@ Added in 3.3.0.
 
 Defaults to `60000`.
 
+### additionalHeaders
+
+Set this to an object where keys are header names and values are header values, and those headers will be included
+with all HTTP requests `node-steam-user` makes to the Steam WebAPI.
+
+Added in 3.29.0.
+
+Defaults to `{}`.
+
 # Properties [^](#contents)
 
 ### client
@@ -515,6 +524,8 @@ Gets your account's auth secret, which is the pre-shared key used for in-home st
 
 **v3.13.0 or later is required to use this method**
 
+**This no longer works and is deprecated. It will be removed entirely in a future release.**
+
 Requests Steam to send you an email that contains a code you can supply to `changePassword` in order to change your
 account's password. If you have a Mobile Authenticator enabled, this will return success but not actually do anything.
 With 2FA, you should use a 2FA code instead of an email code.
@@ -527,6 +538,8 @@ With 2FA, you should use a 2FA code instead of an email code.
     - `err` - `null` on success, or an `Error` object on failure
 
 **v3.13.0 or later is required to use this method**
+
+**This no longer works and is deprecated. It will be removed entirely in a future release.**
 
 Changes your Steam account's password. This won't effect any trading restrictions.
 
@@ -679,6 +692,9 @@ Requests a list of game servers from the master server.
 	- `unknownPackages` - An array of input PackageIDs which don't exist
 
 **Works when anonymous.** Requests details about one or more apps or packages.
+
+If you have the PICS cache enabled and the risk of getting stale data is acceptable, you could check
+[the PICS cache](#picscache) if you want instead of calling `getProductInfo`.
 
 ### getProductAccessToken(apps, packages, callback)
 - `apps` - An array of AppIDs
@@ -989,6 +1005,24 @@ Cancels your outstanding trade request to the specified user.
 
 Retrieves asset description data from Steam. Works similarly to [the WebAPI method by the same name](https://lab.xpaw.me/steam_api_documentation.html#ISteamEconomy_GetAssetClassInfo_v1),
 although at time of documentation no tags are returned.
+
+### getTradeURL(callback)
+- `callback` - Called when the requested data is available
+	- `err` - An `Error` object on failure, or `null` on success
+	- `details` - An object containing `token` and `url` properties
+
+**v3.28.0 or later is required to use this method**
+
+Gets your account's trade token and URL.
+
+### changeTradeURL(callback)
+- `callback` - Called when the requested data is available
+	- `err` - An `Error` object on failure, or `null` on success
+	- `details` - An object containing `token` and `url` properties
+
+**v3.28.0 or later is required to use this method**
+
+Asks the Steam server to generate a new trade token for your account, and returns the new token and URL.
 
 ### chatMessage(recipient, message[, type])
 - `recipient` - Either a `SteamID` object or a string which can parse into one for the recipient of your message

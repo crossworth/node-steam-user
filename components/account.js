@@ -4,6 +4,13 @@ var SteamID = require('steamid');
 var ByteBuffer = require('bytebuffer');
 var BinaryKVParser = require('binarykvparser');
 
+/**
+ * @param {string} accountName
+ * @param {string} password
+ * @param {string} email
+ * @param {function} callback
+ * @deprecated No longer works
+ */
 SteamUser.prototype.createAccount = function(accountName, password, email, callback) {
     throw new Error("Creating accounts through node-steam-user is no longer possible due to Steam changes.");
 };
@@ -80,6 +87,11 @@ SteamUser.prototype.setGetFriendsPersonasOnLogOn = function(value) {
 	});
 };*/
 
+/**
+ * @param {string} currentPassword
+ * @param {function} callback
+ * @deprecated No longer works
+ */
 SteamUser.prototype.requestPasswordChangeEmail = function(currentPassword, callback) {
     var buf = new ByteBuffer(81 + 4); // a static 81 bytes for the password, and 4 for the int at the end
     buf.writeCString(currentPassword);
@@ -98,6 +110,13 @@ SteamUser.prototype.requestPasswordChangeEmail = function(currentPassword, callb
     });
 };
 
+/**
+ * @param {string} oldPassword
+ * @param {string} newPassword
+ * @param {string} code
+ * @param {function} callback
+ * @deprecated No longer works
+ */
 SteamUser.prototype.changePassword = function(oldPassword, newPassword, code, callback) {
     var buf = new ByteBuffer(1 + oldPassword.length + 1 + newPassword.length + 1 + code.length + 1, ByteBuffer.LITTLE_ENDIAN);
     buf.writeCString(""); // unknown
